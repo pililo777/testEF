@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bd_notasAlumnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="alumnos">
+          <Key>
+            <PropertyRef Name="id_alumno" />
+          </Key>
+          <Property Name="id_alumno" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="alums_asigs">
+          <Key>
+            <PropertyRef Name="id_alumno" />
+            <PropertyRef Name="id_asignatura" />
+          </Key>
+          <Property Name="id_alumno" Type="int" Nullable="false" />
+          <Property Name="id_asignatura" Type="int" Nullable="false" />
+          <Property Name="nota" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="asignaturas">
+          <Key>
+            <PropertyRef Name="id_asignatura" />
+          </Key>
+          <Property Name="id_asignatura" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__alums_asi__id_al__145C0A3F">
+          <End Role="alumnos" Type="Self.alumnos" Multiplicity="1" />
+          <End Role="alums_asigs" Type="Self.alums_asigs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alumnos">
+              <PropertyRef Name="id_alumno" />
+            </Principal>
+            <Dependent Role="alums_asigs">
+              <PropertyRef Name="id_alumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__alums_asi__id_as__15502E78">
+          <End Role="asignaturas" Type="Self.asignaturas" Multiplicity="1" />
+          <End Role="alums_asigs" Type="Self.alums_asigs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="asignaturas">
+              <PropertyRef Name="id_asignatura" />
+            </Principal>
+            <Dependent Role="alums_asigs">
+              <PropertyRef Name="id_asignatura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bd_notasAlumnosModelStoreContainer">
+          <EntitySet Name="alumnos" EntityType="Self.alumnos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="alums_asigs" EntityType="Self.alums_asigs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="asignaturas" EntityType="Self.asignaturas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__alums_asi__id_al__145C0A3F" Association="Self.FK__alums_asi__id_al__145C0A3F">
+            <End Role="alumnos" EntitySet="alumnos" />
+            <End Role="alums_asigs" EntitySet="alums_asigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__alums_asi__id_as__15502E78" Association="Self.FK__alums_asi__id_as__15502E78">
+            <End Role="asignaturas" EntitySet="asignaturas" />
+            <End Role="alums_asigs" EntitySet="alums_asigs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bd_notasAlumnosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="alumno">
+          <Key>
+            <PropertyRef Name="id_alumno" />
+          </Key>
+          <Property Name="id_alumno" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="alums_asigs" Relationship="Self.FK__alums_asi__id_al__145C0A3F" FromRole="alumnos" ToRole="alums_asigs" />
+        </EntityType>
+        <EntityType Name="alums_asigs">
+          <Key>
+            <PropertyRef Name="id_alumno" />
+            <PropertyRef Name="id_asignatura" />
+          </Key>
+          <Property Name="id_alumno" Type="Int32" Nullable="false" />
+          <Property Name="id_asignatura" Type="Int32" Nullable="false" />
+          <Property Name="nota" Type="Single" Nullable="false" />
+          <NavigationProperty Name="alumno" Relationship="Self.FK__alums_asi__id_al__145C0A3F" FromRole="alums_asigs" ToRole="alumnos" />
+          <NavigationProperty Name="asignatura" Relationship="Self.FK__alums_asi__id_as__15502E78" FromRole="alums_asigs" ToRole="asignaturas" />
+        </EntityType>
+        <EntityType Name="asignatura">
+          <Key>
+            <PropertyRef Name="id_asignatura" />
+          </Key>
+          <Property Name="id_asignatura" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="alums_asigs" Relationship="Self.FK__alums_asi__id_as__15502E78" FromRole="asignaturas" ToRole="alums_asigs" />
+        </EntityType>
+        <Association Name="FK__alums_asi__id_al__145C0A3F">
+          <End Role="alumnos" Type="Self.alumno" Multiplicity="1" />
+          <End Role="alums_asigs" Type="Self.alums_asigs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="alumnos">
+              <PropertyRef Name="id_alumno" />
+            </Principal>
+            <Dependent Role="alums_asigs">
+              <PropertyRef Name="id_alumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__alums_asi__id_as__15502E78">
+          <End Role="asignaturas" Type="Self.asignatura" Multiplicity="1" />
+          <End Role="alums_asigs" Type="Self.alums_asigs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="asignaturas">
+              <PropertyRef Name="id_asignatura" />
+            </Principal>
+            <Dependent Role="alums_asigs">
+              <PropertyRef Name="id_asignatura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bd_notasAlumnosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="alumnos" EntityType="Self.alumno" />
+          <EntitySet Name="alums_asigs" EntityType="Self.alums_asigs" />
+          <EntitySet Name="asignaturas" EntityType="Self.asignatura" />
+          <AssociationSet Name="FK__alums_asi__id_al__145C0A3F" Association="Self.FK__alums_asi__id_al__145C0A3F">
+            <End Role="alumnos" EntitySet="alumnos" />
+            <End Role="alums_asigs" EntitySet="alums_asigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__alums_asi__id_as__15502E78" Association="Self.FK__alums_asi__id_as__15502E78">
+            <End Role="asignaturas" EntitySet="asignaturas" />
+            <End Role="alums_asigs" EntitySet="alums_asigs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bd_notasAlumnosModelStoreContainer" CdmEntityContainer="bd_notasAlumnosEntities">
+          <EntitySetMapping Name="alumnos">
+            <EntityTypeMapping TypeName="bd_notasAlumnosModel.alumno">
+              <MappingFragment StoreEntitySet="alumnos">
+                <ScalarProperty Name="id_alumno" ColumnName="id_alumno" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="alums_asigs">
+            <EntityTypeMapping TypeName="bd_notasAlumnosModel.alums_asigs">
+              <MappingFragment StoreEntitySet="alums_asigs">
+                <ScalarProperty Name="id_alumno" ColumnName="id_alumno" />
+                <ScalarProperty Name="id_asignatura" ColumnName="id_asignatura" />
+                <ScalarProperty Name="nota" ColumnName="nota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="asignaturas">
+            <EntityTypeMapping TypeName="bd_notasAlumnosModel.asignatura">
+              <MappingFragment StoreEntitySet="asignaturas">
+                <ScalarProperty Name="id_asignatura" ColumnName="id_asignatura" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
